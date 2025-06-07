@@ -1,0 +1,58 @@
+{
+  "name": "Zephyr Dev Env",
+  "build": {
+    "dockerfile": "Dockerfile.zephyr",
+    "args": {
+      "ZEPHYR_VERSION": "v4.1.0",
+      "ZEPHYR_SDK_VERSION": "0.17.1"
+    }
+  },
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--privileged",
+    "--device=/dev/ttyACM0",
+    "--volume=/dev:/dev",
+    "--network=host",
+    "--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+    "--device=/dev/dri",
+    "--env=DISPLAY",
+    "--env=WAYLAND_DISPLAY",
+    "--env=XDG_RUNTIME_DIR",
+  ],
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Block port auto-forwarding.
+      // Set this to true if not using the network=host flag
+      "settings": {
+        "remote.autoForwardPorts": false
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "twxs.cmake",
+        "ms-vscode.cmake-tools",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "atrX.vscode-zephyr-theme",
+        "nordic-semiconductor.nrf-devicetree",
+        "nordic-semiconductor.nrf-kconfig",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "cschlosser.doxdocgen",
+        "eamodio.gitlens",
+        "jebbs.plantuml",
+        "ms-python.autopep8",
+        "njpwerner.autodocstring"
+      ]
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "echo \"source ~/.venv/bin/activate\" >> /home/vscode/.bashrc",
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode"
+}
